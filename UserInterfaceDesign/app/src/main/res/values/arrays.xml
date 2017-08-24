@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ssdq">
+        <item>舟山</item>
+        <item>海通工地</item>
+        <item>海星工地</item>
+        <item>招商工地</item>
+        <item>远舟船舶家俱</item>
+        <item>大津重工</item>
+        <item>振华</item>
+    </string-array>
+
+
+</resources>
