@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.util.OkManager;
+import com.example.util.VG;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     //请求返回值为Json数组
     private String jsonpath = "http://www.baidu.com";//"http://10.0.0.2:8080/OkHttp3Server/ServletJson";
     //登录验证请求
-    private String login_path="http://10.0.0.2:8080/myhappyform/jlLoginAction_phoneLogin";
+    private String login_path="http://192.168.11.96:8080/myhappyform/jlLoginAction_phoneLogin";
     private String result;
     private JSONObject reJsonObject;
 
@@ -111,19 +112,24 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         Log.i(Tag, jsonObject.toString());
-
+                        reJsonObject=jsonObject;
                         runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             button3.setText("已经改变了哦");
-                            Intent intent=new Intent(MainActivity.this,SecondActivity.class);
+                            boolean flag;
                             Bundle b=new Bundle();
-
                             try {
-                                b.putString("username",(String)reJsonObject.get("username"));
+                                flag=(Boolean)reJsonObject.get("msg");
+                                VG.USERINFO=(JSONObject)reJsonObject.get("data");
+                                b.putString("username",(String)VG.USERINFO.get("username"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            Intent intent=new Intent(MainActivity.this,SecondActivity.class);
+
+
+
                             intent.putExtras(b);
                             startActivity(intent);
                             MainActivity.this.finish();

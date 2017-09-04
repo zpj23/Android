@@ -289,7 +289,9 @@ public class OkManager {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response != null && response.isSuccessful()) {
-                    onSuccessJsonObjectMethod(response.body().string(), callback);
+                    String str=response.body().string();
+                    Log.i("info",str);
+                    onSuccessJsonObjectMethod(str, callback);
                 }
             }
         });
