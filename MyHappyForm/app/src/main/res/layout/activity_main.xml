@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+    <!--<TextView-->
+        <!--android:id="@+id/user"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:textSize="20px"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:visibility="invisible"-->
+        <!--/>-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/pwd"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:textSize="20dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:visibility="invisible"/>-->
+
+
+
+    <fragment
+        android:id="@+id/id_fragment_title"
+        android:name="com.example.administrator.myhappyform.fragment.TitleFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp" />
+    <GridView
+        android:id="@+id/gview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="auto_fit"
+        android:columnWidth="80dp"
+        android:stretchMode="columnWidth"
+        ></GridView>
+    <!--<fragment-->
+        <!--android:layout_below="@id/id_fragment_title"-->
+        <!--android:id="@+id/id_fragment_content"-->
+        <!--android:name="com.example.administrator.myhappyform.fragment.ContentFragment"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent" />-->
+
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/id_content"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_below="@id/id_fragment_title" />-->
+</LinearLayout>
