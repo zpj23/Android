@@ -35,7 +35,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //    private Button register;
     private boolean isOpen = false;
     private OkManager manager;
-    private String login_path="http://47.94.87.191:8080/myhappyform/jlLoginAction_phoneLogin";
     private JSONObject reJsonObject;
     private ProgressDialog pd;
 
@@ -43,6 +42,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        try {
+            if(VG.USERINFO!=null){
+                String username=(String)VG.USERINFO.get("username");
+                String password=(String)VG.USERINFO.get("password");
+                Map map=new HashMap();
+                map.put("username",username);
+                map.put("password",password);
+                openWaiting();
+                if(username!=""&&password!=""){
+                    excuteLogin(map);
+                }
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         initView();
 
@@ -175,12 +192,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      *
      */
     private void login(){
-        pd = ProgressDialog.show(LoginActivity.this, "", "加载中，请稍后……");
-        manager = OkManager.getInstance();
+        openWaiting();
         Map map=new HashMap();
-        map.put("username","admin");
-        map.put("password","666666");
-        manager.sendComplexForm(login_path, map, new OkManager.returnJson() {
+        map.put("username",username.getText().toString());
+        map.put("password",password.getText().toString());
+        excuteLogin(map);
+    }
+
+    /**
+     * 密码可见与不可见的切换
+     *
+     * @param flag
+     */
+    private void changePwdOpenOrClose(boolean flag) {
+        // 第一次过来是false，密码不可见
+        if (flag) {
+            // 密码可见
+            bt_pwd_eye.setBackgroundResource(R.drawable.eye_open);
+            // 设置EditText的密码可见
+            password.setTransformationMethod(HideReturnsTransformationMethod
+                    .getInstance());
+        } else {
+            // 密码不接见
+            bt_pwd_eye.setBackgroundResource(R.drawable.eye_close);
+            // 设置EditText的密码隐藏
+            password.setTransformationMethod(PasswordTransformationMethod
+                    .getInstance());
+        }
+    }
+
+    private void openWaiting(){
+        pd = ProgressDialog.show(LoginActivity.this, "", "加载中，请稍后……");
+    }
+    private void closeWaiting(){
+        pd.dismiss();
+    }
+    public void excuteLogin(Map map){
+        manager = OkManager.getInstance();
+        manager.sendComplexForm(VG.LOGIN_PATH, map, new OkManager.returnJson() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 Log.i(Tag, jsonObject.toString());
@@ -188,8 +237,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                       // button3.setText("已经改变了哦");
-                        pd.dismiss();
+                        // button3.setText("已经改变了哦");
+                        closeWaiting();
                         boolean flag;
                         Bundle b=new Bundle();
                         try {
@@ -213,27 +262,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 });
             }
         });
-    }
-
-    /**
-     * 密码可见与不可见的切换
-     *
-     * @param flag
-     */
-    private void changePwdOpenOrClose(boolean flag) {
-        // 第一次过来是false，密码不可见
-        if (flag) {
-            // 密码可见
-            bt_pwd_eye.setBackgroundResource(R.drawable.eye_open);
-            // 设置EditText的密码可见
-            password.setTransformationMethod(HideReturnsTransformationMethod
-                    .getInstance());
-        } else {
-            // 密码不接见
-            bt_pwd_eye.setBackgroundResource(R.drawable.eye_close);
-            // 设置EditText的密码隐藏
-            password.setTransformationMethod(PasswordTransformationMethod
-                    .getInstance());
-        }
     }
 }

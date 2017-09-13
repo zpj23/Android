@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,7 +39,12 @@ public class OkManager {
     private static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("text/x-markdown;charset=utf-8");
 
     private OkManager() {
-        client = new OkHttpClient();
+//        client = new OkHttpClient();
+        client=new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .build();
+
         handler = new Handler(Looper.getMainLooper());
     }
 
@@ -52,6 +58,8 @@ public class OkManager {
                     manager = instance;
                 }
             }
+        }else{
+            instance=manager;
         }
         return instance;
     }
@@ -284,6 +292,13 @@ public class OkManager {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i("info","请求失败");
+                JSONObject josb=new JSONObject();
+                try {
+                    josb.put("msg",false);
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                onSuccessJsonObjectMethod(josb.toString(), callback);
             }
 
             @Override

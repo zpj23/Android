@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/toppanel"
+        >
+        <!--<TextView -->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="考勤信息(录入)"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:textSize="11pt"-->
+            <!--/>-->
+
+    </RelativeLayout>
+    <!--<RelativeLayout android:id="@+id/panelBottom"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<Button android:text="保存"-->
+            <!--android:id="@+id/button1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="fill_parent"></Button>-->
+
+    <!--</RelativeLayout>-->
+
+    <ScrollView
+        android:layout_below ="@id/toppanel"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        >
+
+        <TableLayout android:padding="3dip"
+
+            android:id="@+id/tableLayout1"
+            android:layout_width="fill_parent"
+            android:stretchColumns="1"
+            android:layout_height="fill_parent">
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="施工项目："
+                    android:textAlignment="textEnd"
+                    />
+                <EditText
+                    android:id="@+id/sgxm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="施工区域：" />
+                <EditText
+                    android:id="@+id/sgqy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="施工人员：" />
+                <EditText
+                    android:id="@+id/staffname"
+                    android:padding="3dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="施工日期：" />
+                <EditText android:id="@+id/workdate"
+                    android:inputType="datetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <!--<DatePicker android:id="@+id/workdate"-->
+                <!--android:layout_width="wrap_content" android:layout_height="wrap_content"></DatePicker>-->
+
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="出勤时间：" />
+                <EditText
+                    android:inputType="numberDecimal"
+                    android:id="@+id/workduringtime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="加班时间：" />
+                <EditText
+                    android:id="@+id/overtime"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="所属地区：" />
+                <Spinner
+
+                    android:id="@+id/departmentname"
+                    android:entries="@array/ssdq"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+                </Spinner>
+            </TableRow>
+
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="具体内容：" />
+                <EditText
+                    android:id="@+id/workcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="备注：" />
+                <EditText
+                    android:id="@+id/remark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow android:layout_height="25dp"  >
+                <Button android:text="保存" android:layout_span="2"
+                    android:id="@+id/button1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"></Button>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+</RelativeLayout >
