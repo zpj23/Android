@@ -2,6 +2,7 @@ package com.example.administrator.myhappyform.fragment;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
+import com.example.administrator.myhappyform.ListKqActivity;
+import com.example.administrator.myhappyform.MainActivity;
 import com.example.administrator.myhappyform.R;
 
 import java.util.ArrayList;
@@ -42,6 +45,9 @@ public class ContentFragment extends Fragment {
                     case R.drawable.kqgl:        //如果是点击的某个事件
                         toDetailFragment();
                         break;
+                    case R.drawable.kqgl_list:
+                        Intent i=new Intent(getActivity(), ListKqActivity.class);
+                        startActivity(i);
 
                     default:
                         break;

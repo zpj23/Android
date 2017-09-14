@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.administrator.myhappyform.MainActivity"></activity>
+        <activity android:name=".ListKqActivity"></activity>
     </application>
 
 </manifest>
