@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.administrator.myhappyform.entity.UserInfo;
+import com.example.administrator.myhappyform.util.BaseActivity;
 import com.example.administrator.myhappyform.util.OkManager;
 import com.example.administrator.myhappyform.util.VG;
 
@@ -24,7 +26,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private EditText username, password;
     private Button bt_username_clear;
     private Button bt_pwd_clear;
@@ -42,26 +44,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        try {
-            if(VG.USERINFO!=null){
-                String username=(String)VG.USERINFO.get("username");
-                String password=(String)VG.USERINFO.get("password");
-                Map map=new HashMap();
-                map.put("username",username);
-                map.put("password",password);
-                openWaiting();
-                if(username!=""&&password!=""){
-                    excuteLogin(map);
-                }
-
-            }
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
+        currentContext=LoginActivity.this;
+//        if(VG.USERINFO!=null){
+//            String username=(String)VG.USERINFO.getUsername();
+//            String password=(String)VG.USERINFO.getPassword();
+//            Map map=new HashMap();
+//            map.put("username",username);
+//            map.put("password",password);
+//            openWaiting();
+//            if(username!=""&&password!=""){
+//                excuteLogin(map);
+//            }
+//
+//        }
         initView();
 
     }
@@ -193,11 +188,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      *
      */
     private void login(){
-        openWaiting();
+
         Map map=new HashMap();
         map.put("username",username.getText().toString());
         map.put("password",password.getText().toString());
         excuteLogin(map);
+
     }
 
     /**
@@ -222,13 +218,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void openWaiting(){
-        pd = ProgressDialog.show(LoginActivity.this, "", "加载中，请稍后……");
-    }
-    private void closeWaiting(){
-        pd.dismiss();
-    }
+
     public void excuteLogin(Map map){
+        openWaiting();
         manager = OkManager.getInstance();
         manager.sendComplexForm(VG.LOGIN_PATH, map, new OkManager.returnJson() {
             @Override
@@ -239,16 +231,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void run() {
                         // button3.setText("已经改变了哦");
-                        closeWaiting();
+
                         boolean flag;
                         Bundle b=new Bundle();
                         try {
                             flag=(Boolean)reJsonObject.get("msg");
                             if(flag){
-                                VG.USERINFO=(JSONObject)reJsonObject.get("data");
-                                b.putString("username",(String)VG.USERINFO.get("username"));
+                                JSONObject job=(JSONObject)reJsonObject.get("data");
+                                VG.USERINFO=new UserInfo();
+                                int id=(Integer) job.get("id");
+                                VG.USERINFO.setId(String.valueOf(id));
+                                VG.USERINFO.setLoginname((String) job.get("loginname"));
+                                VG.USERINFO.setUsername((String) job.get("username"));
+                                VG.USERINFO.setPassword((String) job.get("password"));
+                                VG.USERINFO.setIsadmin((String) job.get("isAdmin"));
+                                VG.USERINFO.setDepartmentcode((String) job.get("departmentcode"));
+                                VG.USERINFO.setDepartmentname((String) job.get("departmentname"));
                                 Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                                intent.putExtras(b);
+
                                 startActivity(intent);
                                 LoginActivity.this.finish();
                             }else{
@@ -257,10 +257,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        }finally {
+                            closeWaiting();
                         }
 
                     }
                 });
+
             }
         });
     }

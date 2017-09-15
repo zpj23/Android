@@ -1,29 +1,24 @@
-package com.example.administrator.myhappyform.fragment;
+package com.example.administrator.myhappyform;
 
-
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Fragment;
-import android.app.ProgressDialog;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
-import android.view.LayoutInflater;
+
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.myhappyform.LoginActivity;
-import com.example.administrator.myhappyform.MainActivity;
-import com.example.administrator.myhappyform.R;
-import com.example.administrator.myhappyform.entity.CheckInfo;
+import com.example.administrator.myhappyform.entity.UserInfo;
+import com.example.administrator.myhappyform.util.BaseActivity;
 import com.example.administrator.myhappyform.util.OkManager;
 import com.example.administrator.myhappyform.util.VG;
 
@@ -35,10 +30,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2017/9/13.
+ * Created by Administrator on 2017/9/15.
  */
 
-public class AddkqFragment extends Fragment {
+public class AddKqActivity extends BaseActivity {
     public  int year,month,day;
     EditText sgxm;//施工项目
     EditText sgqy;//施工区域
@@ -51,17 +46,15 @@ public class AddkqFragment extends Fragment {
     EditText remark;//备注
     Button button;
     private OkManager manager;
-    private ProgressDialog pd;
     private JSONObject returnObj;
     public View view;
     DatePickerDialog datePickerDialog;
-
+    public Map requestmap;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
-        view = inflater.inflate(R.layout.fragment_addkq, container, false);
-        ((MainActivity) getActivity()).setTitle("考勤信息(录入)");
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_addkq);
+        setTitle("考勤信息(录入)");
         Calendar calendar=Calendar.getInstance();
         year=calendar.get(Calendar.YEAR);
         month=calendar.get(Calendar.MONTH);
@@ -72,7 +65,7 @@ public class AddkqFragment extends Fragment {
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
                 if(datePickerDialog!=null) datePickerDialog.hide();
-                datePickerDialog = new DatePickerDialog(getActivity(),
+                datePickerDialog = new DatePickerDialog(AddKqActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -110,9 +103,49 @@ public class AddkqFragment extends Fragment {
                 saveInfo();
             }
         });
-        return view;
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+
+        String id=(String)bundle.get("id");
+        if(!id.equalsIgnoreCase("")) {
+            requestmap=new HashMap();
+            requestmap.put("id",id);
+            initData();
+        }
     }
-     void saveInfo(){
+    public void initData(){
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // button3.setText("已经改变了哦");
+
+                manager = OkManager.getInstance();
+                manager.sendComplexForm("", requestmap, new OkManager.returnJson() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        try {
+                            boolean flag;
+                            flag=(Boolean)jsonObject.get("msg");
+                            if(flag){
+                                Toast.makeText(AddKqActivity.this,"初始化成功",Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(AddKqActivity.this,"初始化错误",Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
+            }
+        });
+
+    }
+
+    void saveInfo(){
         sgxm=(EditText)view.findViewById(R.id.sgxm) ;//施工项目
         sgqy=(EditText)view.findViewById(R.id.sgqy);//施工区域
         staffname=(EditText)view.findViewById(R.id.staffname);//施工人员
@@ -122,6 +155,7 @@ public class AddkqFragment extends Fragment {
         String ssqy=spinner.getSelectedItem().toString();//所属区域
         workcontent=(EditText)view.findViewById(R.id.workcontent);//具体内容
         remark=(EditText)view.findViewById(R.id.remark);//备注
+        TextView id=(TextView)view.findViewById(R.id.id);
         Map map =new HashMap<>();
         map.put("sgxm",sgxm.getText().toString());
         map.put("sgqy",sgqy.getText().toString());
@@ -132,6 +166,9 @@ public class AddkqFragment extends Fragment {
         map.put("workcontent",workcontent.getText().toString());
         map.put("remark",remark.getText().toString());
         map.put("departmentname",ssqy);
+        map.put("id",id.getText().toString());
+        map.put("loginId", VG.USERINFO.getId());
+        map.put("isAdmin",VG.USERINFO.getIsadmin());
         openWaiting();
         manager = OkManager.getInstance();
         manager.sendComplexForm(VG.SAVE_CHECKINFO_PATH, map, new OkManager.returnJson() {
@@ -139,14 +176,21 @@ public class AddkqFragment extends Fragment {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 returnObj=jsonObject;
-                getActivity().runOnUiThread(new Runnable() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         // button3.setText("已经改变了哦");
                         closeWaiting();
-                        boolean flag;
-                        Bundle b=new Bundle();
-                        Log.i("obje",returnObj.toString());
+                        try {
+                            boolean b=(Boolean) returnObj.get("msg");
+                            if(b){
+                                Toast.makeText(AddKqActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(AddKqActivity.this,"保存失败",Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 });
@@ -154,14 +198,12 @@ public class AddkqFragment extends Fragment {
         });
     }
     public void show(int year,int month,int day){
-        Toast.makeText(getActivity(),year+" "+(month+1)+" "+day,Toast.LENGTH_SHORT).show();
+        Toast.makeText(AddKqActivity.this,year+" "+(month+1)+" "+day,Toast.LENGTH_SHORT).show();
     }
 
 
-    private void openWaiting(){
-        pd = ProgressDialog.show(getActivity(), "", "加载中，请稍后……");
-    }
-    private void closeWaiting(){
-        pd.dismiss();
+    public   void  setTitle(String title){
+        TextView textView=(TextView)findViewById(R.id.zy);
+        textView.setText(title);
     }
 }

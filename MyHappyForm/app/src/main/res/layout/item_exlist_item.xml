@@ -4,14 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="5dp"
-    android:background="#6BBA79">
+    android:background="#ccc8c8">
 
-    <ImageView
-        android:id="@+id/img_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@mipmap/ic_launcher"
-        android:focusable="false"/>
 
     <TextView
         android:id="@+id/tv_name"
@@ -22,5 +16,10 @@
         android:focusable="false"
         android:text="提莫"
         android:textSize="18sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/check_info_id"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
+import com.example.administrator.myhappyform.AddKqActivity;
 import com.example.administrator.myhappyform.ListKqActivity;
 import com.example.administrator.myhappyform.MainActivity;
 import com.example.administrator.myhappyform.R;
@@ -43,7 +44,9 @@ public class ContentFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (icon[position]){  //构建起来的图标数组
                     case R.drawable.kqgl:        //如果是点击的某个事件
-                        toDetailFragment();
+                        //toDetailFragment();
+                        Intent m=new Intent(getActivity(), AddKqActivity.class);
+                        startActivity(m);
                         break;
                     case R.drawable.kqgl_list:
                         Intent i=new Intent(getActivity(), ListKqActivity.class);
@@ -56,14 +59,7 @@ public class ContentFragment extends Fragment {
         });
         return view;
     }
-    public void toDetailFragment(){
-        AddkqFragment addkqFragment=new AddkqFragment();
-        FragmentTransaction fragmentTransaction=getFragmentManager().beginTransaction();
-        fragmentTransaction.hide(this);
-        fragmentTransaction.add(R.id.id_content , addkqFragment, "add");
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
+
     public List<Map<String, Object>> getData(){
         //cion和iconName的长度是相同的，这里任选其一都可以
         for(int i=0;i<icon.length;i++){

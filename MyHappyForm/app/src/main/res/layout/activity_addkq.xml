@@ -12,29 +12,16 @@
         android:layout_alignParentTop="true"
         android:id="@+id/toppanel"
         >
-        <!--<TextView -->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="考勤信息(录入)"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:textSize="11pt"-->
-            <!--/>-->
-
     </RelativeLayout>
-    <!--<RelativeLayout android:id="@+id/panelBottom"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_height="wrap_content">-->
-
-        <!--<Button android:text="保存"-->
-            <!--android:id="@+id/button1"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_width="fill_parent"></Button>-->
-
-    <!--</RelativeLayout>-->
+    <fragment
+        android:id="@+id/id_fragment_title"
+        android:name="com.example.administrator.myhappyform.fragment.TitleFragment"
+        android:layout_width="fill_parent"
+        android:layout_below="@id/toppanel"
+        android:layout_height="45dp" />
 
     <ScrollView
-        android:layout_below ="@id/toppanel"
+        android:layout_below ="@id/id_fragment_title"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         >
 
@@ -44,6 +31,11 @@
             android:layout_width="fill_parent"
             android:stretchColumns="1"
             android:layout_height="fill_parent">
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
             <TableRow android:layout_height="25dp">
                 <TextView
                     android:layout_width="wrap_content"
