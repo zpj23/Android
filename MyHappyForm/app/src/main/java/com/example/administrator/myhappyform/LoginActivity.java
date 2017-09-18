@@ -19,10 +19,13 @@ import com.example.administrator.myhappyform.entity.UserInfo;
 import com.example.administrator.myhappyform.util.BaseActivity;
 import com.example.administrator.myhappyform.util.OkManager;
 import com.example.administrator.myhappyform.util.VG;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -227,42 +230,29 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onResponse(JSONObject jsonObject) {
                 Log.i(Tag, jsonObject.toString());
                 reJsonObject=jsonObject;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // button3.setText("已经改变了哦");
-
-                        boolean flag;
-                        Bundle b=new Bundle();
-                        try {
-                            flag=(Boolean)reJsonObject.get("msg");
-                            if(flag){
-                                JSONObject job=(JSONObject)reJsonObject.get("data");
-                                VG.USERINFO=new UserInfo();
-                                int id=(Integer) job.get("id");
-                                VG.USERINFO.setId(String.valueOf(id));
-                                VG.USERINFO.setLoginname((String) job.get("loginname"));
-                                VG.USERINFO.setUsername((String) job.get("username"));
-                                VG.USERINFO.setPassword((String) job.get("password"));
-                                VG.USERINFO.setIsadmin((String) job.get("isAdmin"));
-                                VG.USERINFO.setDepartmentcode((String) job.get("departmentcode"));
-                                VG.USERINFO.setDepartmentname((String) job.get("departmentname"));
-                                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-
-                                startActivity(intent);
-                                LoginActivity.this.finish();
-                            }else{
-                                Toast.makeText(LoginActivity.this,"用户名或者密码错误",Toast.LENGTH_SHORT).show();
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }finally {
-                            closeWaiting();
-                        }
-
+                boolean flag;
+                Bundle b=new Bundle();
+                try {
+                    flag=(Boolean)reJsonObject.get("msg");
+                    if(flag){
+                        JSONObject job=(JSONObject)reJsonObject.get("data");
+                        Type listType = new TypeToken<UserInfo>() {}.getType();
+                        UserInfo userInfo= gson.fromJson(job.toString(),  listType);
+                        VG.USERINFO=userInfo;
+                        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        LoginActivity.this.finish();
+                    }else{
+                        Toast.makeText(LoginActivity.this,"用户名或者密码错误",Toast.LENGTH_SHORT).show();
                     }
-                });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }finally {
+                    closeWaiting();
+                }
+
+
 
             }
         });

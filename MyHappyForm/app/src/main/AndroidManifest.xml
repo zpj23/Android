@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.administrator.myhappyform.MainActivity"></activity>
-        <activity android:name=".ListKqActivity" android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".ListKqActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+        <activity android:name=".AddKqActivity"></activity>
     </application>
 
 </manifest>

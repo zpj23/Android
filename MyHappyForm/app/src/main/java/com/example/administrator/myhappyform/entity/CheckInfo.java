@@ -1,6 +1,7 @@
 package com.example.administrator.myhappyform.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2017/9/13.
@@ -10,7 +11,7 @@ public class CheckInfo implements Serializable{
     private static final long serialVersionUID = 7162329841877212054L;
     private String id;
     private String staffname;//员工名
-    private String  workdate;//工作日期；
+    private Date workdate;//工作日期；
     private double workduringtime=8;//工作时长
     private String departmentname;//工作地点 对应部门
     private String departmentcode;//对应部门 编码
@@ -40,11 +41,11 @@ public class CheckInfo implements Serializable{
         this.staffname = staffname;
     }
 
-    public String getWorkdate() {
+    public Date getWorkdate() {
         return workdate;
     }
 
-    public void setWorkdate(String workdate) {
+    public void setWorkdate(Date workdate) {
         this.workdate = workdate;
     }
 

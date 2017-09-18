@@ -8,7 +8,7 @@ public class UserInfo {
     private String id;
     private String username;
     private String password;
-    private String isadmin;
+    private String isAdmin;
     private String loginname;
     private String departmentcode;
     private String departmentname;
@@ -37,12 +37,12 @@ public class UserInfo {
         this.password = password;
     }
 
-    public String getIsadmin() {
-        return isadmin;
+    public String getIsAdmin() {
+        return isAdmin;
     }
 
-    public void setIsadmin(String isadmin) {
-        this.isadmin = isadmin;
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public String getLoginname() {

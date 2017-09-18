@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     >
-    <!--android:focusable="true"-->
-    <!--android:focusableInTouchMode="true"-->
+
     <fragment
         android:id="@+id/id_fragment_title"
         android:name="com.example.administrator.myhappyform.fragment.TitleFragment"
@@ -13,7 +13,7 @@
         android:layout_height="45dp" />
 
     <EditText android:id="@+id/search_workdate"
-        android:inputType="datetime"
+        android:inputType="none"
         android:layout_width="200dp"
         android:layout_below="@+id/id_fragment_title"
         android:hint="点击选择时间"

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -65,7 +66,32 @@ public class ListKqActivity extends BaseActivity {
         mContext = ListKqActivity.this;
         exlist_kq = (ExpandableListView) findViewById(R.id.exlist_kq);
         search_workdate=(EditText) findViewById(R.id.search_workdate);
+        search_workdate.setInputType(InputType.TYPE_NULL);
+        search_workdate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // TODO Auto-generated method stub
+                if(hasFocus){
+                    Calendar calendar = Calendar.getInstance();
+                    if(datePickerDialog!=null) datePickerDialog.hide();
+                    datePickerDialog = new DatePickerDialog(ListKqActivity.this,
+                            new DatePickerDialog.OnDateSetListener() {
+
+                                @Override
+                                public void onDateSet(DatePicker view, int year,
+                                                      int monthOfYear, int dayOfMonth) {
+
+                                    search_workdate.setText(year + "-" + (monthOfYear+1) + "-"
+                                            + dayOfMonth);
+                                }
+                            }, calendar.get(Calendar.YEAR), calendar
+                            .get(Calendar.MONTH), calendar
+                            .get(Calendar.DAY_OF_MONTH));
+                    datePickerDialog.show();
+                }
+            }
+        });
         search_workdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,9 +122,9 @@ public class ListKqActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 openWaiting();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
                         searchMap=getSearchTime();
                         manager.sendComplexForm(VG.LIST_CHECKINFO_PATH,searchMap, new OkManager.returnJson() {
                             @Override
@@ -117,8 +143,8 @@ public class ListKqActivity extends BaseActivity {
                                 }
                             }
                         });
-                    }
-                });
+//                    }
+//                });
 
             }
         });
@@ -153,7 +179,7 @@ public class ListKqActivity extends BaseActivity {
         Date date=null;
 
         map.put("loginId",VG.USERINFO.getId());
-        map.put("isAdmin",VG.USERINFO.getIsadmin());
+        map.put("isAdmin",VG.USERINFO.getIsAdmin());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         if(!search_workdate.getText().toString().equalsIgnoreCase("")){
             try {
@@ -261,6 +287,6 @@ public class ListKqActivity extends BaseActivity {
         Bundle bundle=new Bundle();
         bundle.putString("id",id);
         intent.putExtras(bundle);
-        startActivityForResult(intent,666);
+        startActivity(intent);
     }
 }

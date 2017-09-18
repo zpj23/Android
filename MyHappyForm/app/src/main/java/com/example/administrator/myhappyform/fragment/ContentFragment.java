@@ -46,6 +46,9 @@ public class ContentFragment extends Fragment {
                     case R.drawable.kqgl:        //如果是点击的某个事件
                         //toDetailFragment();
                         Intent m=new Intent(getActivity(), AddKqActivity.class);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("id","");
+                        m.putExtras(bundle);
                         startActivity(m);
                         break;
                     case R.drawable.kqgl_list:
