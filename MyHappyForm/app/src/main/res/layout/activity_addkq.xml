@@ -134,9 +134,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
+
                     android:text="具体内容：" />
                 <EditText
                     android:id="@+id/workcontent"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </TableRow>

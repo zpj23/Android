@@ -77,7 +77,7 @@ public class AddKqActivity extends BaseActivity {
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
 
-                                workdate.setText(year + "-" + monthOfYear + "-"
+                                workdate.setText(year + "-" + (monthOfYear+1) + "-"
                                         + dayOfMonth);
                             }
                         }, calendar.get(Calendar.YEAR), calendar
@@ -211,22 +211,20 @@ public class AddKqActivity extends BaseActivity {
         workcontent=(EditText)findViewById(R.id.workcontent);//具体内容
         remark=(EditText)findViewById(R.id.remark);//备注
         TextView id=(TextView)findViewById(R.id.id);
-        Map map =new HashMap<>();
-        map.put("sgxm",sgxm.getText().toString());
-        map.put("sgqy",sgqy.getText().toString());
-        map.put("workdate",workdate.getText().toString());
-        map.put("staffname",staffname.getText().toString());
-        map.put("workduringtime",workduringtime.getText().toString());
-        map.put("overtime",overtime.getText().toString());
-        map.put("workcontent",workcontent.getText().toString());
-        map.put("remark",remark.getText().toString());
-        map.put("departmentname",ssqy);
-        map.put("id",id.getText().toString());
-        map.put("loginId", VG.USERINFO.getId());
-        map.put("isAdmin",VG.USERINFO.getIsAdmin());
+
+        requestMap.put("sgxm",sgxm.getText().toString());
+        requestMap.put("sgqy",sgqy.getText().toString());
+        requestMap.put("workdate",workdate.getText().toString());
+        requestMap.put("staffname",staffname.getText().toString());
+        requestMap.put("workduringtime",workduringtime.getText().toString());
+        requestMap.put("overtime",overtime.getText().toString());
+        requestMap.put("workcontent",workcontent.getText().toString());
+        requestMap.put("remark",remark.getText().toString());
+        requestMap.put("departmentname",ssqy);
+        requestMap.put("id",id.getText().toString());
         openWaiting();
         manager = OkManager.getInstance();
-        manager.sendComplexForm(VG.SAVE_CHECKINFO_PATH, map, new OkManager.returnJson() {
+        manager.sendComplexForm(VG.SAVE_CHECKINFO_PATH, requestMap, new OkManager.returnJson() {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
@@ -240,6 +238,12 @@ public class AddKqActivity extends BaseActivity {
                             boolean b=(Boolean) returnObj.get("msg");
                             if(b){
                                 Toast.makeText(AddKqActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
+                                Intent intent=new Intent();
+                                Bundle bundle=new Bundle();
+                                bundle.putString("date",workdate.getText().toString()+"");
+                                intent.putExtras(bundle);
+                                setResult(666,intent);
+                                finish();
                             }else{
                                 Toast.makeText(AddKqActivity.this,"保存失败",Toast.LENGTH_SHORT).show();
                             }

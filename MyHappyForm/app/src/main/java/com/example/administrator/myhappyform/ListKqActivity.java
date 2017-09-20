@@ -51,7 +51,6 @@ public class ListKqActivity extends BaseActivity {
     private MyBaseExpandableListAdapter myAdapter = null;
     private OkManager manager;
     private String Tag="请求列表信息";
-    private Map searchMap=new HashMap();
     private List<String> groupName=new ArrayList<String>();
     private EditText search_workdate;
     private Button search_button;
@@ -104,7 +103,7 @@ public class ListKqActivity extends BaseActivity {
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
 
-                                search_workdate.setText(year + "-" + monthOfYear + "-"
+                                search_workdate.setText(year + "-" + (monthOfYear+1) + "-"
                                         + dayOfMonth);
                             }
                         }, calendar.get(Calendar.YEAR), calendar
@@ -115,41 +114,36 @@ public class ListKqActivity extends BaseActivity {
             }
         });
         //数据准备
-        searchMap=getSearchTime();
-
         search_button=(Button)findViewById(R.id.search_info);
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWaiting();
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-                        searchMap=getSearchTime();
-                        manager.sendComplexForm(VG.LIST_CHECKINFO_PATH,searchMap, new OkManager.returnJson() {
-                            @Override
-                            public void onResponse(JSONObject jsonObject) {
-
-                                try {
-                                    Log.i(Tag,jsonObject.toString());
-                                    JSONArray jsonArray=(JSONArray)jsonObject.get("list");
-                                    getGroupAndItemData(jsonArray);
-                                    myAdapter.notifyDataSetChanged();
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }finally {
-                                    closeWaiting();
-                                }
-                            }
-                        });
-//                    }
-//                });
-
+                clickSearchButton();
             }
         });
+        clickSearchButton();
+//        openWaiting();
+//        manager.sendComplexForm(VG.LIST_CHECKINFO_PATH,requestMap, new OkManager.returnJson() {
+//            @Override
+//            public void onResponse(JSONObject jsonObject) {
+//
+//                try {
+//                    Log.i(Tag,jsonObject.toString());
+//                    JSONArray jsonArray=(JSONArray)jsonObject.get("list");
+//                    getGroupAndItemData(jsonArray);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }finally {
+//                    closeWaiting();
+//                }
+//            }
+//        });
+    }
+
+    private void  clickSearchButton(){
         openWaiting();
-        manager.sendComplexForm(VG.LIST_CHECKINFO_PATH,searchMap, new OkManager.returnJson() {
+        getSearchTime();
+        manager.sendComplexForm(VG.LIST_CHECKINFO_PATH,requestMap, new OkManager.returnJson() {
             @Override
             public void onResponse(JSONObject jsonObject) {
 
@@ -157,6 +151,8 @@ public class ListKqActivity extends BaseActivity {
                     Log.i(Tag,jsonObject.toString());
                     JSONArray jsonArray=(JSONArray)jsonObject.get("list");
                     getGroupAndItemData(jsonArray);
+                    myAdapter.notifyDataSetChanged();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }finally {
@@ -164,22 +160,14 @@ public class ListKqActivity extends BaseActivity {
                 }
             }
         });
-
-
-
-
-
-
-
-
     }
 
-    private Map getSearchTime()  {
-        Map map =new HashMap();
+    private void getSearchTime()  {
+//        Map map =new HashMap();
         Date date=null;
 
-        map.put("loginId",VG.USERINFO.getId());
-        map.put("isAdmin",VG.USERINFO.getIsAdmin());
+//        map.put("loginId",VG.USERINFO.getId());
+//        map.put("isAdmin",VG.USERINFO.getIsAdmin());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         if(!search_workdate.getText().toString().equalsIgnoreCase("")){
             try {
@@ -190,18 +178,12 @@ public class ListKqActivity extends BaseActivity {
         }else{
             date=new Date();
         }
-//        date=getSelfDate(date,0);
-        map.put("datemax",sdf.format(date));
+        requestMap.put("datemax",sdf.format(date));
         groupName=new ArrayList<String>();
         groupName.add(sdf.format(date));
         groupName.add(sdf.format(getSelfDate(date,-1)));
         groupName.add(sdf.format(getSelfDate(date,-2)));
-//        groupName.add(sdf.format(getSelfDate(date,-3)));
-//        groupName.add(sdf.format(getSelfDate(date,-4)));
-//        groupName.add(sdf.format(getSelfDate(date,-5)));
-//        groupName.add(sdf.format(getSelfDate(date,-6)));
-        map.put("datemin",sdf.format(getSelfDate(date,-2)));
-        return map;
+        requestMap.put("datemin",sdf.format(getSelfDate(date,-2)));
     }
     private  Date getSelfDate(Date date,int n){
         Calendar calendar = Calendar.getInstance();
@@ -233,34 +215,6 @@ public class ListKqActivity extends BaseActivity {
                 iData.add(lData);
             }
 
-//        gData.add(new Group("AD"));
-//        gData.add(new Group("AP"));
-//        gData.add(new Group("TANK"));
-
-//        lData = new ArrayList<Item>();
-//        //AD组
-//        lData.add(new Item(R.mipmap.iv_lol_icon3,"剑圣"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon4,"德莱文"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon13,"男枪"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon14,"韦鲁斯"));
-//        iData.add(lData);
-//        //AP组
-//        lData = new ArrayList<Item>();
-//        lData.add(new Item(R.mipmap.iv_lol_icon1, "提莫"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon7, "安妮"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon8, "天使"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon9, "泽拉斯"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon11, "狐狸"));
-//        iData.add(lData);
-//        //TANK组
-//        lData = new ArrayList<Item>();
-//        lData.add(new Item(R.mipmap.iv_lol_icon2, "诺手"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon5, "德邦"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon6, "奥拉夫"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon10, "龙女"));
-//        lData.add(new Item(R.mipmap.iv_lol_icon12, "狗熊"));
-//        iData.add(lData);
-
         myAdapter = new MyBaseExpandableListAdapter(gData,iData,mContext);
         exlist_kq.setAdapter(myAdapter);
 
@@ -287,6 +241,17 @@ public class ListKqActivity extends BaseActivity {
         Bundle bundle=new Bundle();
         bundle.putString("id",id);
         intent.putExtras(bundle);
-        startActivity(intent);
+        startActivityForResult(intent,666);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==666&&resultCode==666){
+            Bundle bundle=data.getExtras();
+            String time=(String)bundle.get("date");
+            search_workdate.setText(time);
+            clickSearchButton();
+        }
     }
 }
