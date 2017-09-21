@@ -227,8 +227,9 @@ public class ListKqActivity extends BaseActivity {
                 toAddKq(iData.get(groupPosition).get(childPosition).getCheck_info_id());
                 return true;
             }
-
+            
         });
+
     }
 
     public   void  setTitle(String title){

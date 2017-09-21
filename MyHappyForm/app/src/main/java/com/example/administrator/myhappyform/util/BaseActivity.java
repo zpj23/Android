@@ -5,9 +5,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.example.administrator.myhappyform.entity.UserInfo;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +35,14 @@ public class BaseActivity extends AppCompatActivity {
         if(VG.USERINFO!=null) {
             requestMap.put("loginId", VG.USERINFO.getId());
             requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
+        }else{
+            Type listType = new TypeToken<UserInfo>() {}.getType();
+            String str=readInFile();
+            if(!str.equalsIgnoreCase("")) {
+                VG.USERINFO = gson.fromJson(str, listType);
+                requestMap.put("loginId", VG.USERINFO.getId());
+                requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
+            }
         }
     }
 
@@ -38,8 +53,74 @@ public class BaseActivity extends AppCompatActivity {
         pd.dismiss();
     }
 
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
+
+
+//    核心原理: Context提供了两个方法来打开数据文件里的文件IO流 FileInputStream openFileInput(String name); FileOutputStream(String name , int mode),这两个方法第一个参数 用于指定文件名，第二个参数指定打开文件的模式。具体有以下值可选：
+//
+//    MODE_PRIVATE：为默认操作模式，代表该文件是私有数据，只能被应用本身访问，在该模式下，写入的内容会覆盖原文件的内容，如果想把新写入的内容追加到原文件中。可   以使用Context.MODE_APPEND
+//
+//    MODE_APPEND：模式会检查文件是否存在，存在就往文件追加内容，否则就创建新文件。
+//
+//    MODE_WORLD_READABLE：表示当前文件可以被其他应用读取；
+//
+//    MODE_WORLD_WRITEABLE：表示当前文件可以被其他应用写入。
+//
+//    除此之外，Context还提供了如下几个重要的方法：
+//
+//    getDir(String name , int mode):在应用程序的数据文件夹下获取或者创建name对应的子目录
+//
+//    File getFilesDir():获取该应用程序的数据文件夹得绝对路径
+//
+//    String[] fileList():返回该应用数据文件夹的全部文件
+
+    public String readInFile() {
+        try {
+            File file=getFilesDir();
+            Log.i("info",file.getPath());
+            boolean isExist=isExist(file.getPath()+"/hp.txt");
+            StringBuilder sb = new StringBuilder("");
+            if(isExist){
+                FileInputStream inStream = this.openFileInput("hp.txt");
+                byte[] buffer = new byte[1024];
+                int hasRead = 0;
+
+                while ((hasRead = inStream.read(buffer)) != -1) {
+                    sb.append(new String(buffer, 0, hasRead));
+                }
+
+                inStream.close();
+            }
+
+            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void writeInFile(String msg){
+        // 步骤1：获取输入值
+        if(msg == null) return;
+        try {
+            // 步骤2:创建一个FileOutputStream对象,MODE_APPEND追加模式
+            FileOutputStream fos = openFileOutput("hp.txt",
+                    MODE_APPEND);
+            // 步骤3：将获取过来的值放入文件
+            fos.write(msg.getBytes());
+            // 步骤4：关闭数据流
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public  boolean isExist(String path) {
+        File file = new File(path);
+//判断文件夹是否存在,如果不存在则创建文件夹
+        if (!file.exists()) {
+           return false;
+        }else{
+            return  true;
+        }
+    }
+
 }

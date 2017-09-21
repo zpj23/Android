@@ -7,6 +7,8 @@ import com.example.administrator.myhappyform.entity.UserInfo;
 
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+
 /**
  * Created by Administrator on 2017/9/4.
  */
@@ -19,5 +21,6 @@ public class VG {
     public static String LOGIN_PATH="http://192.168.11.96:8080/jlLoginAction_loginByPhone";
     public static String LIST_CHECKINFO_PATH="http://192.168.11.96:8080/jlManualCheckInfoAction_findListInfoByPhone";
     public static String FIND_CHECKINFO_BYID_PATH="http://192.168.11.96:8080/jlManualCheckInfoAction_findInfoByIdByPhone";
+
 
 }

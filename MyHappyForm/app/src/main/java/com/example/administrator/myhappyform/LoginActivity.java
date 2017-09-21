@@ -25,6 +25,8 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,20 +50,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         currentContext=LoginActivity.this;
-//        if(VG.USERINFO!=null){
-//            String username=(String)VG.USERINFO.getUsername();
-//            String password=(String)VG.USERINFO.getPassword();
-//            Map map=new HashMap();
-//            map.put("username",username);
-//            map.put("password",password);
-//            openWaiting();
-//            if(username!=""&&password!=""){
-//                excuteLogin(map);
-//            }
-//
-//        }
         initView();
+        if(VG.USERINFO!=null){
+            String username=(String)VG.USERINFO.getUsername();
+            String password=(String)VG.USERINFO.getPassword();
+            Map map=new HashMap();
+            map.put("username",username);
+            map.put("password",password);
+            openWaiting();
+            if(username!=""&&password!=""){
+                excuteLogin(map);
+            }
 
+        }
     }
 
     private void initView() {
@@ -238,6 +239,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         JSONObject job=(JSONObject)reJsonObject.get("data");
                         Type listType = new TypeToken<UserInfo>() {}.getType();
                         UserInfo userInfo= gson.fromJson(job.toString(),  listType);
+                        writeInFile(userInfo.toString());
                         VG.USERINFO=userInfo;
                         Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);
@@ -257,4 +259,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
+
+
 }
