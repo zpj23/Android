@@ -49,8 +49,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        currentContext=LoginActivity.this;
         initView();
+        currentContext=LoginActivity.this;
         if(VG.USERINFO!=null){
             String username=(String)VG.USERINFO.getUsername();
             String password=(String)VG.USERINFO.getPassword();
@@ -239,7 +239,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         JSONObject job=(JSONObject)reJsonObject.get("data");
                         Type listType = new TypeToken<UserInfo>() {}.getType();
                         UserInfo userInfo= gson.fromJson(job.toString(),  listType);
-                        writeInFile(userInfo.toString());
+                        System.out.print(job.toString());
+                        writeInFile(job.toString());
                         VG.USERINFO=userInfo;
                         Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);

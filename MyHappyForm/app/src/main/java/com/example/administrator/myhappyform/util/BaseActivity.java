@@ -1,7 +1,9 @@
 package com.example.administrator.myhappyform.util;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +29,9 @@ public class BaseActivity extends AppCompatActivity {
     public Context currentContext;
     public Gson gson=new Gson();
     public Map requestMap;
+    public AlertDialog ad;
+    public AlertDialog.Builder builder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +41,11 @@ public class BaseActivity extends AppCompatActivity {
             requestMap.put("loginId", VG.USERINFO.getId());
             requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
         }else{
-            Type listType = new TypeToken<UserInfo>() {}.getType();
+
             String str=readInFile();
             if(!str.equalsIgnoreCase("")) {
+                Type listType = new TypeToken<UserInfo>() {}.getType();
+                UserInfo userInfo=gson.fromJson(str, listType);
                 VG.USERINFO = gson.fromJson(str, listType);
                 requestMap.put("loginId", VG.USERINFO.getId());
                 requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
@@ -52,6 +59,26 @@ public class BaseActivity extends AppCompatActivity {
     public void closeWaiting(){
         pd.dismiss();
     }
+
+    public void showSaveAlert(){
+        if(builder==null){
+            builder = new AlertDialog.Builder(currentContext);
+        }
+        ad = builder
+                .setTitle("系统提示：")
+                .setMessage("保存成功")
+
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ad.hide();
+                    }
+                })
+               .create();             //创建AlertDialog对象
+        ad.show();
+
+    }
+
 
 
 
@@ -104,7 +131,7 @@ public class BaseActivity extends AppCompatActivity {
         try {
             // 步骤2:创建一个FileOutputStream对象,MODE_APPEND追加模式
             FileOutputStream fos = openFileOutput("hp.txt",
-                    MODE_APPEND);
+                    MODE_PRIVATE);
             // 步骤3：将获取过来的值放入文件
             fos.write(msg.getBytes());
             // 步骤4：关闭数据流

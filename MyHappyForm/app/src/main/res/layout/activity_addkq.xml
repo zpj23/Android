@@ -22,7 +22,7 @@
 
     <ScrollView
         android:layout_below ="@id/id_fragment_title"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
         >
 
         <TableLayout
@@ -44,7 +44,7 @@
                     />
                 <EditText
                     android:id="@+id/sgxm"
-                    android:layout_width="fill_parent"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content" />
 
 
@@ -57,7 +57,7 @@
                     android:text="施工区域：" />
                 <EditText
                     android:id="@+id/sgqy"
-                    android:layout_width="fill_parent"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content" />
 
 
@@ -70,7 +70,7 @@
                     android:text="施工人员：" />
                 <EditText
                     android:id="@+id/staffname"
-                    android:layout_width="fill_parent"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content" />
 
             </TableRow>
@@ -82,7 +82,7 @@
                     android:text="施工日期：" />
                 <EditText android:id="@+id/workdate"
                     android:inputType="datetime"
-                    android:layout_width="fill_parent"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"/>
                 <!--<DatePicker android:id="@+id/workdate"-->
                 <!--android:layout_width="wrap_content" android:layout_height="wrap_content"></DatePicker>-->
@@ -98,7 +98,7 @@
                 <EditText
                     android:inputType="numberDecimal"
                     android:id="@+id/workduringtime"
-                    android:layout_width="fill_parent"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content" />
 
             </TableRow>
@@ -111,7 +111,7 @@
                 <EditText
                     android:id="@+id/overtime"
                     android:inputType="numberDecimal"
-                    android:layout_width="fill_parent"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content" />
             </TableRow>
             <TableRow android:layout_height="25dp">
@@ -124,7 +124,7 @@
 
                     android:id="@+id/departmentname"
                     android:entries="@array/ssdq"
-                    android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    android:layout_width="50dp" android:layout_height="wrap_content">
 
                 </Spinner>
             </TableRow>
@@ -138,8 +138,11 @@
                     android:text="具体内容：" />
                 <EditText
                     android:id="@+id/workcontent"
-
-                    android:layout_width="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:gravity="left|top"
+                    android:scrollHorizontally="false"
+                    android:minLines="3"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content" />
             </TableRow>
             <TableRow android:layout_height="25dp">
@@ -153,9 +156,10 @@
                     android:inputType="textMultiLine"
                     android:gravity="left|top"
                     android:scrollHorizontally="false"
-                    android:minLines="2"
+                    android:minLines="3"
+                    android:text=""
                     android:singleLine="false"
-                    android:layout_width="fill_parent"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content" />
             </TableRow>
             <TableRow android:layout_height="25dp"  >

@@ -229,21 +229,27 @@ public class AddKqActivity extends BaseActivity {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 returnObj=jsonObject;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
                         // button3.setText("已经改变了哦");
                         closeWaiting();
                         try {
                             boolean b=(Boolean) returnObj.get("msg");
                             if(b){
                                 Toast.makeText(AddKqActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
-                                Intent intent=new Intent();
-                                Bundle bundle=new Bundle();
-                                bundle.putString("date",workdate.getText().toString()+"");
-                                intent.putExtras(bundle);
-                                setResult(666,intent);
-                                finish();
+                                String tempid=(String)requestMap.get("id");
+                                if(tempid.equalsIgnoreCase("")){
+                                    showSaveAlert();
+                                }else{
+                                    Intent intent=new Intent();
+                                    Bundle bundle=new Bundle();
+                                    bundle.putString("date",workdate.getText().toString()+"");
+                                    intent.putExtras(bundle);
+                                    setResult(666,intent);
+                                    finish();
+                                }
+
                             }else{
                                 Toast.makeText(AddKqActivity.this,"保存失败",Toast.LENGTH_SHORT).show();
                             }
@@ -251,8 +257,8 @@ public class AddKqActivity extends BaseActivity {
                             e.printStackTrace();
                         }
 
-                    }
-                });
+//                    }
+//                });
             }
         });
     }
