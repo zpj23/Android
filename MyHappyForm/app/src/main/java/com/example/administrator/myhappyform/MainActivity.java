@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.administrator.myhappyform.fragment.ContentFragment;
 import com.example.administrator.myhappyform.fragment.TitleFragment;
+import com.example.administrator.myhappyform.service.LocationService;
 import com.example.administrator.myhappyform.util.VG;
 
 import org.json.JSONException;
@@ -31,18 +32,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
- //       Intent intent=getIntent();
-//        TextView user=(TextView)findViewById(R.id.user);
-//        TextView pwd=(TextView)findViewById(R.id.pwd);
-//        user.setText("用户名："+intent.getExtras().get("username").toString());
-//        try {
-//            pwd.setText("密码："+ (String) VG.USERINFO.get("password"));
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
         setDefaultFragment();
         //initMenu();
+
+        startLocationService();
     }
+
+    public void startLocationService(){
+        Intent intent = new Intent(this,LocationService.class);
+        startService(intent);
+    }
+//    public void stopLoactionService(){
+//        Intent intent = new Intent();
+//        intent.setAction("locationService");
+//        stopService(intent);
+//    }
+
     public   void  setTitle(String title){
         TextView textView=(TextView)findViewById(R.id.zy);
         textView.setText(title);

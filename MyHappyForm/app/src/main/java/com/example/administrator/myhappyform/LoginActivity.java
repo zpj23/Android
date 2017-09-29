@@ -246,7 +246,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         startActivity(intent);
                         LoginActivity.this.finish();
                     }else{
+                        closeWaiting();
                         Toast.makeText(LoginActivity.this,"用户名或者密码错误",Toast.LENGTH_SHORT).show();
+
                     }
 
                 } catch (JSONException e) {
@@ -259,6 +261,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             }
         });
+
     }
 
 

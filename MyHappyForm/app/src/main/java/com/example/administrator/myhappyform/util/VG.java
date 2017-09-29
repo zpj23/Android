@@ -22,5 +22,6 @@ public class VG {
     public static String LIST_CHECKINFO_PATH="http://192.168.11.96:8080/jlManualCheckInfoAction_findListInfoByPhone";
     public static String FIND_CHECKINFO_BYID_PATH="http://192.168.11.96:8080/jlManualCheckInfoAction_findInfoByIdByPhone";
 
+    public static String UPDATE_LOCATION_PATH="http://192.168.11.96:8080/jlLocationAction_updateLocationByPhone";
 
 }

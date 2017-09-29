@@ -30,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();//关联控件
+        initLocation();
+    }
+    private void init() {
+        btn_show = (Button) findViewById(R.id.btn_show_location);
+        tv_show = (TextView) findViewById(R.id.tv_location_show);
+    }
+    public void initLocation(){
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);//获得位置服务
         provider = judgeProvider(locationManager);
 
@@ -50,11 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-    private void init() {
-        btn_show = (Button) findViewById(R.id.btn_show_location);
-        tv_show = (TextView) findViewById(R.id.tv_location_show);
-    }
-
     /**
      * 得到当前经纬度并开启线程去反向地理编码
      */
