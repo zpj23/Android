@@ -99,6 +99,7 @@
                     android:inputType="numberDecimal"
                     android:id="@+id/workduringtime"
                     android:layout_width="50dp"
+                    android:text="8"
                     android:layout_height="wrap_content" />
 
             </TableRow>
@@ -141,7 +142,6 @@
                     android:inputType="textMultiLine"
                     android:gravity="left|top"
                     android:scrollHorizontally="false"
-                    android:minLines="3"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content" />
             </TableRow>
@@ -156,7 +156,6 @@
                     android:inputType="textMultiLine"
                     android:gravity="left|top"
                     android:scrollHorizontally="false"
-                    android:minLines="3"
                     android:text=""
                     android:singleLine="false"
                     android:layout_width="50dp"

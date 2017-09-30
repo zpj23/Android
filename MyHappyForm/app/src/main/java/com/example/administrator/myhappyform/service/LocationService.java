@@ -44,7 +44,7 @@ public class LocationService  extends IntentService {
         initLocation();
         AlarmManager manager1 = (AlarmManager) getSystemService(ALARM_SERVICE);
         //这里是定时的,这里设置的是每隔两秒打印一次时间=-=,自己改
-        int anHour = 10 * 1000;
+        int anHour = 60*60 * 1000;
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
         Intent i = new Intent(this,AlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);

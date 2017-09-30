@@ -1,7 +1,9 @@
 package com.example.administrator.myhappyform;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -52,14 +54,15 @@ public class AddKqActivity extends BaseActivity {
     EditText remark;//备注
     Button button;
     private OkManager manager;
-    private JSONObject returnObj;
     DatePickerDialog datePickerDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addkq);
         currentContext=AddKqActivity.this;
         setTitle("考勤信息(录入)");
+
         Calendar calendar=Calendar.getInstance();
         year=calendar.get(Calendar.YEAR);
         month=calendar.get(Calendar.MONTH);
@@ -116,42 +119,32 @@ public class AddKqActivity extends BaseActivity {
             initData();
         }
     }
-    protected void initData(){
-
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-                // button3.setText("已经改变了哦");
-                openWaiting();
-                manager = OkManager.getInstance();
-                manager.sendComplexForm(VG.FIND_CHECKINFO_BYID_PATH, requestMap, new OkManager.returnJson() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        try {
-                            boolean flag;
-                            flag=(Boolean)jsonObject.get("msg");
-                            if(flag){
-                                JSONObject job=(JSONObject)jsonObject.get("data");
-                                Type listType = new TypeToken<CheckInfo>() {}.getType();
-                                CheckInfo checkInfo= gson.fromJson(job.toString(),  listType);
-                                fillData(checkInfo);
-                                Toast.makeText(AddKqActivity.this,"初始化成功",Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(AddKqActivity.this,"初始化错误",Toast.LENGTH_SHORT).show();
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }finally {
-                            closeWaiting();
+    protected void initData(){;
+            openWaiting();
+            manager = OkManager.getInstance();
+            manager.sendComplexForm(VG.FIND_CHECKINFO_BYID_PATH, requestMap, new OkManager.returnJson() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    try {
+                        boolean flag;
+                        flag=(Boolean)jsonObject.get("msg");
+                        if(flag){
+                            JSONObject job=(JSONObject)jsonObject.get("data");
+                            Type listType = new TypeToken<CheckInfo>() {}.getType();
+                            CheckInfo checkInfo= gson.fromJson(job.toString(),  listType);
+                            fillData(checkInfo);
+                            Toast.makeText(AddKqActivity.this,"初始化成功",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(AddKqActivity.this,"初始化错误",Toast.LENGTH_SHORT).show();
                         }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }finally {
+                        closeWaiting();
                     }
-                });
-
-
-//            }
-//        });
-
+                }
+            });
     }
 
     /**
@@ -228,39 +221,41 @@ public class AddKqActivity extends BaseActivity {
 
             @Override
             public void onResponse(JSONObject jsonObject) {
-                returnObj=jsonObject;
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-                        // button3.setText("已经改变了哦");
-                        closeWaiting();
-                        try {
-                            boolean b=(Boolean) returnObj.get("msg");
-                            if(b){
-                                Toast.makeText(AddKqActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
-                                String tempid=(String)requestMap.get("id");
-                                if(tempid.equalsIgnoreCase("")){
-                                    showSaveAlert();
-                                }else{
-                                    Intent intent=new Intent();
-                                    Bundle bundle=new Bundle();
-                                    bundle.putString("date",workdate.getText().toString()+"");
-                                    intent.putExtras(bundle);
-                                    setResult(666,intent);
-                                    finish();
-                                }
+                try {
+                    boolean b=(Boolean) jsonObject.get("msg");
+                    if(b){
+                        Toast.makeText(AddKqActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent();
+                        Bundle bundle=new Bundle();
+                        bundle.putString("date",workdate.getText().toString()+"");
+                        intent.putExtras(bundle);
+                        setResult(666,intent);
+                        finish();
+                    }else{
+                        Toast.makeText(AddKqActivity.this,"保存失败",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }finally {
+                    closeWaiting();
+                }
 
-                            }else{
-                                Toast.makeText(AddKqActivity.this,"保存失败",Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-//                    }
-//                });
             }
         });
+    }
+
+    /**
+     * 保存成功跳转
+     */
+    public void saveSuccess(){
+
+    }
+
+    /**
+     * 保存失败修改
+     */
+    public void saveFailed(){
+
     }
     public void show(int year,int month,int day){
         Toast.makeText(AddKqActivity.this,year+" "+(month+1)+" "+day,Toast.LENGTH_SHORT).show();

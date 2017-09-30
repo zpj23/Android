@@ -46,7 +46,6 @@ public class ListKqActivity extends BaseActivity {
     private ArrayList<Group> gData = null;
     private ArrayList<ArrayList<Item>> iData = null;
     private ArrayList<Item> lData = null;
-    private Context mContext;
     private ExpandableListView exlist_kq;
     private MyBaseExpandableListAdapter myAdapter = null;
     private OkManager manager;
@@ -55,6 +54,7 @@ public class ListKqActivity extends BaseActivity {
     private EditText search_workdate;
     private Button search_button;
     DatePickerDialog datePickerDialog;
+    private Button add_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         manager=OkManager.getInstance();
@@ -62,7 +62,6 @@ public class ListKqActivity extends BaseActivity {
         currentContext=ListKqActivity.this;
         setContentView(R.layout.activity_list);
         setTitle("考勤信息列表");
-        mContext = ListKqActivity.this;
         exlist_kq = (ExpandableListView) findViewById(R.id.exlist_kq);
         search_workdate=(EditText) findViewById(R.id.search_workdate);
         search_workdate.setInputType(InputType.TYPE_NULL);
@@ -121,23 +120,21 @@ public class ListKqActivity extends BaseActivity {
                 clickSearchButton();
             }
         });
+        add_button=(Button)findViewById(R.id.add_info);
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent m=new Intent(ListKqActivity.this, AddKqActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putString("id","");
+                m.putExtras(bundle);
+                startActivityForResult(m,666);
+            }
+        });
         clickSearchButton();
-//        openWaiting();
-//        manager.sendComplexForm(VG.LIST_CHECKINFO_PATH,requestMap, new OkManager.returnJson() {
-//            @Override
-//            public void onResponse(JSONObject jsonObject) {
-//
-//                try {
-//                    Log.i(Tag,jsonObject.toString());
-//                    JSONArray jsonArray=(JSONArray)jsonObject.get("list");
-//                    getGroupAndItemData(jsonArray);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }finally {
-//                    closeWaiting();
-//                }
-//            }
-//        });
+
+
+
     }
 
     private void  clickSearchButton(){
@@ -215,7 +212,7 @@ public class ListKqActivity extends BaseActivity {
                 iData.add(lData);
             }
 
-        myAdapter = new MyBaseExpandableListAdapter(gData,iData,mContext);
+        myAdapter = new MyBaseExpandableListAdapter(gData,iData,ListKqActivity.this);
         exlist_kq.setAdapter(myAdapter);
 
 
@@ -223,7 +220,7 @@ public class ListKqActivity extends BaseActivity {
         exlist_kq.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(mContext, "你点击了：" + iData.get(groupPosition).get(childPosition).getiName(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(ListKqActivity.this, "你点击了：" + iData.get(groupPosition).get(childPosition).getiName(), Toast.LENGTH_SHORT).show();
                 toAddKq(iData.get(groupPosition).get(childPosition).getCheck_info_id());
                 return true;
             }

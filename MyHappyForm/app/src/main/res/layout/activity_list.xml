@@ -18,15 +18,21 @@
         android:layout_below="@+id/id_fragment_title"
         android:hint="点击选择时间"
         android:layout_height="wrap_content"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/search_info"
         android:text="查询"
-        android:layout_marginRight="10dp"
-        android:layout_alignBaseline="@+id/search_workdate"
-        android:layout_alignBottom="@+id/search_workdate"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/id_fragment_title"
+        android:layout_toEndOf="@+id/search_workdate" />
+    <Button
+        android:id="@+id/add_info"
+        android:text="新增"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/id_fragment_title"
+        android:layout_toEndOf="@+id/search_info" />
     <ExpandableListView android:layout_below="@+id/search_workdate"
         android:id="@+id/exlist_kq"
         android:layout_width="match_parent"

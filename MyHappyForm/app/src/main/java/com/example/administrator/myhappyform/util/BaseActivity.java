@@ -37,11 +37,15 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestMap=new HashMap();
+        if(VG.isExit){
+            delLoginFile();
+            VG.USERINFO=null;
+            VG.isExit=false;
+        }
         if(VG.USERINFO!=null) {
             requestMap.put("loginId", VG.USERINFO.getId());
             requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
         }else{
-
             String str=readInFile();
             if(!str.equalsIgnoreCase("")) {
                 Type listType = new TypeToken<UserInfo>() {}.getType();
@@ -54,30 +58,39 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void openWaiting(){
+        if(pd!=null&&pd.isShowing()){
+            pd.dismiss();
+        }
         pd = ProgressDialog.show(currentContext, "", "加载中，请稍后……");
     }
     public void closeWaiting(){
-        pd.dismiss();
-    }
-
-    public void showSaveAlert(){
-        if(builder==null){
-            builder = new AlertDialog.Builder(currentContext);
+        if(pd!=null&&pd.isShowing()){
+            pd.dismiss();
         }
-        ad = builder
-                .setTitle("系统提示：")
-                .setMessage("保存成功")
-
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ad.hide();
-                    }
-                })
-               .create();             //创建AlertDialog对象
-        ad.show();
-
     }
+
+//    public void showSaveAlert(){
+//        if(builder==null){
+//            builder = new AlertDialog.Builder(currentContext);
+//        }
+//        if(ad!=null&&ad.isShowing()){
+//            ad.hide();
+//        }
+//        ad = builder
+//                .setTitle("系统提示：")
+//                .setMessage("保存成功")
+//
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                        ad.hide();
+//                    }
+//                })
+//               .create();             //创建AlertDialog对象
+//        ad.show();
+//
+//    }
 
 
 
@@ -103,7 +116,6 @@ public class BaseActivity extends AppCompatActivity {
     public String readInFile() {
         try {
             File file=getFilesDir();
-            Log.i("info",file.getPath());
             boolean isExist=isExist(file.getPath()+"/hp.txt");
             StringBuilder sb = new StringBuilder("");
             if(isExist){
@@ -148,6 +160,11 @@ public class BaseActivity extends AppCompatActivity {
         }else{
             return  true;
         }
+    }
+    public  void delLoginFile() {
+        File file=getFilesDir();
+        File f = new File(file.getPath()+"/hp.txt");
+        f.delete();
     }
 
 }

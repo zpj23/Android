@@ -57,7 +57,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             Map map=new HashMap();
             map.put("username",username);
             map.put("password",password);
-            openWaiting();
             if(username!=""&&password!=""){
                 excuteLogin(map);
             }
