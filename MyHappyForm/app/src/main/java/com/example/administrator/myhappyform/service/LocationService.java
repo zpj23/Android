@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.administrator.myhappyform.receiver.AlarmReceiver;
 import com.example.administrator.myhappyform.util.OkManager;
@@ -113,8 +112,8 @@ public class LocationService  extends IntentService {
 //    };
 
     public void updateLocation(String latitude,String longitude,String address){
-        manager=OkManager.getInstance();
-        String url= VG.UPDATE_LOCATION_PATH +"?id="+VG.USERINFO.getId()+"&latitude="+latitude+"&longitude="+longitude+"&address="+address;
+        manager= OkManager.getInstance();
+        String url= VG.UPDATE_LOCATION_PATH +"?id="+ VG.USERINFO.getId()+"&latitude="+latitude+"&longitude="+longitude+"&address="+address;
         manager.asyncStringByURL(url, new OkManager.returnString() {
             @Override
             public void onResponse(String str) {
@@ -134,7 +133,7 @@ public class LocationService  extends IntentService {
         longitude = location.getLongitude()+"";
         // String url = "http://api.map.baidu.com/geocoder/v2/?ak=pPGNKs75nVZPloDFuppTLFO3WXebPgXg&callback=renderReverse&location="+latitude+","+longitude+"&output=json&pois=0";
         String url = "http://api.map.baidu.com/geocoder/v2/?ak=sNyur13vORywDFGWIkwSmuDi&callback=renderReverse&location="+latitude+","+longitude+"&output=json&pois=0";
-        manager=OkManager.getInstance();
+        manager= OkManager.getInstance();
         manager.asyncStringByURL(url, new OkManager.returnString() {
             @Override
             public void onResponse(String str) {

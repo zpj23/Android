@@ -1,7 +1,6 @@
 package com.example.administrator.myhappyform.fragment;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.SimpleAdapter;
 
 import com.example.administrator.myhappyform.AddKqActivity;
 import com.example.administrator.myhappyform.ListKqActivity;
-import com.example.administrator.myhappyform.MainActivity;
 import com.example.administrator.myhappyform.R;
 
 import java.util.ArrayList;
@@ -81,7 +79,7 @@ public class ContentFragment extends Fragment {
         getData();
         //新建适配器
         String [] from ={"image_img","text_tex"};
-        int [] to = {R.id.image_img,R.id.text_tex};
+        int [] to = {R.id.image_img, R.id.text_tex};
         /*SimpleAdapter的参数说明
 		 * 第一个参数 表示访问整个android应用程序接口，基本上所有的组件都需要
 		 * 第二个参数表示生成一个Map(String ,Object)列表选项

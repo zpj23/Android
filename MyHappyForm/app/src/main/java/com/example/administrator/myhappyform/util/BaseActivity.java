@@ -3,11 +3,8 @@ package com.example.administrator.myhappyform.util;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.example.administrator.myhappyform.entity.UserInfo;
 import com.google.gson.Gson;

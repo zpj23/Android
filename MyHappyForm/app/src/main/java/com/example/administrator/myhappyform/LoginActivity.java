@@ -2,8 +2,6 @@ package com.example.administrator.myhappyform;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,14 +17,11 @@ import com.example.administrator.myhappyform.entity.UserInfo;
 import com.example.administrator.myhappyform.util.BaseActivity;
 import com.example.administrator.myhappyform.util.OkManager;
 import com.example.administrator.myhappyform.util.VG;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -170,7 +165,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.login:
                 // TODO 登录按钮
-                login();
+                if(username.getText().toString().equalsIgnoreCase("")||password.getText().toString().equalsIgnoreCase("")){
+                    Toast.makeText(LoginActivity.this, "请填写完整的用户名或密码", Toast.LENGTH_SHORT).show();
+                }else{
+                    login();
+                }
+
                 break;
 //            case R.id.register:
 //                // 注册按钮

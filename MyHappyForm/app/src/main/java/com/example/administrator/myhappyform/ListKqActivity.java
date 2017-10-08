@@ -1,18 +1,23 @@
 package com.example.administrator.myhappyform;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Administrator on 2017/9/14.
@@ -55,6 +56,8 @@ public class ListKqActivity extends BaseActivity {
     private Button search_button;
     DatePickerDialog datePickerDialog;
     private Button add_button;
+
+    private JSONArray jsonArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         manager=OkManager.getInstance();
@@ -146,7 +149,7 @@ public class ListKqActivity extends BaseActivity {
 
                 try {
                     Log.i(Tag,jsonObject.toString());
-                    JSONArray jsonArray=(JSONArray)jsonObject.get("list");
+                    jsonArray=(JSONArray)jsonObject.get("list");
                     getGroupAndItemData(jsonArray);
                     myAdapter.notifyDataSetChanged();
 
@@ -220,8 +223,9 @@ public class ListKqActivity extends BaseActivity {
         exlist_kq.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-              //  Toast.makeText(ListKqActivity.this, "你点击了：" + iData.get(groupPosition).get(childPosition).getiName(), Toast.LENGTH_SHORT).show();
-                toAddKq(iData.get(groupPosition).get(childPosition).getCheck_info_id());
+                String pk=iData.get(groupPosition).get(childPosition).getCheck_info_id();
+                initPopWindow(v,pk);
+             //  toAddKq(iData.get(groupPosition).get(childPosition).getCheck_info_id());
                 return true;
             }
             
@@ -240,6 +244,7 @@ public class ListKqActivity extends BaseActivity {
         bundle.putString("id",id);
         intent.putExtras(bundle);
         startActivityForResult(intent,666);
+
     }
 
     @Override
@@ -251,5 +256,109 @@ public class ListKqActivity extends BaseActivity {
             search_workdate.setText(time);
             clickSearchButton();
         }
+    }
+
+    /**
+     * 点击一个item初始化popwindow
+     * @param v
+     */
+    private void initPopWindow(View v,final String pk) {
+        View view = LayoutInflater.from(currentContext).inflate(R.layout.item_popw, null, false);
+        Button btn_xixi = (Button) view.findViewById(R.id.btn_bianji);
+        Button btn_hehe = (Button) view.findViewById(R.id.btn_shanchu);
+        //1.构造一个PopupWindow，参数依次是加载的View，宽高
+        final PopupWindow popWindow = new PopupWindow(view,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        popWindow.setAnimationStyle(R.anim.anim_pop);  //设置加载动画
+
+        //这些为了点击非PopupWindow区域，PopupWindow会消失的，如果没有下面的
+        //代码的话，你会发现，当你把PopupWindow显示出来了，无论你按多少次后退键
+        //PopupWindow并不会关闭，而且退不出程序，加上下述代码可以解决这个问题
+        popWindow.setTouchable(true);
+        popWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));    //要为popWindow设置一个背景才有效
+
+
+        //设置popupWindow显示的位置，参数依次是参照View，x轴的偏移量，y轴的偏移量
+        popWindow.showAtLocation(v, Gravity.RIGHT, -10,10);
+
+        //设置popupWindow里的按钮的事件
+        btn_xixi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                toAddKq(pk);
+                Toast.makeText(currentContext, "初始化信息，请稍后", Toast.LENGTH_SHORT).show();
+                popWindow.dismiss();
+            }
+        });
+        btn_hehe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shanchuDialog(pk);
+                popWindow.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 删除的弹出的对话框
+     * @param id
+     */
+    private void shanchuDialog(final String id){
+        new AlertDialog.Builder(currentContext)
+                .setTitle("删除")
+                .setMessage("确定要删除该条记录吗？")
+                .setPositiveButton("是", new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        shanchuInfo(id);
+                    }
+                } )
+                .setNegativeButton("否",  new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                } )
+                .show();
+    }
+
+    /**
+     * 删除方法
+     * @param id
+     */
+    private void shanchuInfo(String id){
+        openWaiting();
+        requestMap.put("delId",id);
+        manager.sendComplexForm(VG.DELETE_CHECKINFO_BYID_PATH, requestMap, new OkManager.returnJson() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+                try {
+                    Log.i(Tag,jsonObject.toString());
+                    Boolean delFlag=(Boolean)jsonObject.get("msg");
+                    if(delFlag){
+                        Toast.makeText(currentContext, "删除成功，正在刷新列表", Toast.LENGTH_SHORT).show();
+                        clickSearchButton();
+                    }else{
+                        Toast.makeText(currentContext, "删除失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }finally {
+                    closeWaiting();
+                }
+            }
+        });
     }
 }

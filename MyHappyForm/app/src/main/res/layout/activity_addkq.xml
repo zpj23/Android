@@ -39,8 +39,33 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="施工日期：" />
+                <EditText android:id="@+id/workdate"
+                    android:inputType="datetime"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+                <!--<DatePicker android:id="@+id/workdate"-->
+                <!--android:layout_width="wrap_content" android:layout_height="wrap_content"></DatePicker>-->
+
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="所属地区：" />
+                <Spinner
+
+                    android:id="@+id/departmentname"
+                    android:entries="@array/ssdq"
+                    android:layout_width="50dp" android:layout_height="wrap_content">
+
+                </Spinner>
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="施工项目："
-                    android:textAlignment="textEnd"
                     />
                 <EditText
                     android:id="@+id/sgxm"
@@ -53,7 +78,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
                     android:text="施工区域：" />
                 <EditText
                     android:id="@+id/sgqy"
@@ -66,77 +90,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:text="施工人员：" />
-                <EditText
-                    android:id="@+id/staffname"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content" />
-
-            </TableRow>
-            <TableRow android:layout_height="25dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:text="施工日期：" />
-                <EditText android:id="@+id/workdate"
-                    android:inputType="datetime"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-                <!--<DatePicker android:id="@+id/workdate"-->
-                <!--android:layout_width="wrap_content" android:layout_height="wrap_content"></DatePicker>-->
-
-            </TableRow>
-            <TableRow android:layout_height="25dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:text="出勤时间：" />
-                <EditText
-                    android:inputType="numberDecimal"
-                    android:id="@+id/workduringtime"
-                    android:layout_width="50dp"
-                    android:text="8"
-                    android:layout_height="wrap_content" />
-
-            </TableRow>
-            <TableRow android:layout_height="25dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:text="加班时间：" />
-                <EditText
-                    android:id="@+id/overtime"
-                    android:inputType="numberDecimal"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content" />
-            </TableRow>
-            <TableRow android:layout_height="25dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-                    android:text="所属地区：" />
-                <Spinner
-
-                    android:id="@+id/departmentname"
-                    android:entries="@array/ssdq"
-                    android:layout_width="50dp" android:layout_height="wrap_content">
-
-                </Spinner>
-            </TableRow>
-
-            <TableRow android:layout_height="25dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
-
-                    android:text="具体内容：" />
+                    android:text="施工内容：" />
                 <EditText
                     android:id="@+id/workcontent"
                     android:inputType="textMultiLine"
@@ -149,7 +103,47 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
+                    android:text="施工人员：" />
+                <EditText
+                    android:id="@+id/staffname"
+                    android:layout_width="50dp"
+                    android:text="多人用，分割"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+
+            <TableRow android:layout_height="25dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="出勤时长：" />
+                <EditText
+                    android:inputType="numberDecimal"
+                    android:id="@+id/workduringtime"
+                    android:layout_width="50dp"
+                    android:text="8"
+                    android:layout_height="wrap_content" />
+
+            </TableRow>
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="加班时长：" />
+                <EditText
+                    android:id="@+id/overtime"
+                    android:inputType="numberDecimal"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+
+
+            <TableRow android:layout_height="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="备注：" />
                 <EditText
                     android:id="@+id/remark"

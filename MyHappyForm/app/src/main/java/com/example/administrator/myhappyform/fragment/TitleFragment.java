@@ -11,15 +11,9 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
-import com.example.administrator.myhappyform.AddKqActivity;
-import com.example.administrator.myhappyform.ListKqActivity;
 import com.example.administrator.myhappyform.LoginActivity;
-import com.example.administrator.myhappyform.MainActivity;
 import com.example.administrator.myhappyform.R;
-import com.example.administrator.myhappyform.util.BaseActivity;
 import com.example.administrator.myhappyform.util.VG;
-
-import java.io.File;
 
 /**
  * Created by Administrator on 2017/9/6.
@@ -40,9 +34,9 @@ public class TitleFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(getActivity(),
-                        "i am an ImageButton in TitleFragment ! ",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),
+//                        "i am an ImageButton in TitleFragment ! ",
+//                        Toast.LENGTH_SHORT).show();
 
                 PopupMenu popup = new PopupMenu(getActivity(),mLeftMenu);
                 popup.getMenuInflater().inflate(R.menu.menu_pop, popup.getMenu());

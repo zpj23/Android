@@ -1,16 +1,10 @@
 package com.example.administrator.myhappyform;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
-
 import android.view.View;
-
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.myhappyform.entity.CheckInfo;
-import com.example.administrator.myhappyform.entity.UserInfo;
 import com.example.administrator.myhappyform.util.BaseActivity;
 import com.example.administrator.myhappyform.util.OkManager;
 import com.example.administrator.myhappyform.util.VG;
@@ -33,8 +26,6 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/9/15.
