@@ -106,6 +106,7 @@ public class AddKqActivity extends BaseActivity {
         Bundle bundle=intent.getExtras();
         String id=(String)bundle.get("id");
         if(!id.equalsIgnoreCase("")) {
+            getRequestMap();//初始化requestMap对象
             requestMap.put("id",id);
             initData();
         }
@@ -195,7 +196,7 @@ public class AddKqActivity extends BaseActivity {
         workcontent=(EditText)findViewById(R.id.workcontent);//具体内容
         remark=(EditText)findViewById(R.id.remark);//备注
         TextView id=(TextView)findViewById(R.id.id);
-
+        getRequestMap();//初始化requestMap对象
         requestMap.put("sgxm",sgxm.getText().toString());
         requestMap.put("sgqy",sgqy.getText().toString());
         requestMap.put("workdate",workdate.getText().toString());

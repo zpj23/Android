@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         initView();
         currentContext=LoginActivity.this;
         if(VG.USERINFO!=null){
-            String username=(String)VG.USERINFO.getUsername();
+            String username=(String)VG.USERINFO.getLoginname();
             String password=(String)VG.USERINFO.getPassword();
             Map map=new HashMap();
             map.put("username",username);

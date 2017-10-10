@@ -28,7 +28,7 @@ public class ContentFragment extends Fragment {
     private List<Map<String, Object>> data_list;
     private SimpleAdapter sim_adapter;
     // 图片封装为一个数组
-    private int[] icon = { R.drawable.kqgl_list};
+    private int[] icon = { R.drawable.sys_kqgl};
     private String[] iconName = { "考核管理"};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +49,7 @@ public class ContentFragment extends Fragment {
                         m.putExtras(bundle);
                         startActivity(m);
                         break;
-                    case R.drawable.kqgl_list:
+                    case R.drawable.sys_kqgl:
                         Intent i=new Intent(getActivity(), ListKqActivity.class);
                         startActivity(i);
 

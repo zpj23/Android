@@ -163,11 +163,7 @@ public class ListKqActivity extends BaseActivity {
     }
 
     private void getSearchTime()  {
-//        Map map =new HashMap();
         Date date=null;
-
-//        map.put("loginId",VG.USERINFO.getId());
-//        map.put("isAdmin",VG.USERINFO.getIsAdmin());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         if(!search_workdate.getText().toString().equalsIgnoreCase("")){
             try {
@@ -178,6 +174,7 @@ public class ListKqActivity extends BaseActivity {
         }else{
             date=new Date();
         }
+        getRequestMap();//初始化requestMap对象
         requestMap.put("datemax",sdf.format(date));
         groupName=new ArrayList<String>();
         groupName.add(sdf.format(date));
@@ -340,6 +337,7 @@ public class ListKqActivity extends BaseActivity {
      */
     private void shanchuInfo(String id){
         openWaiting();
+        getRequestMap();//初始化requestMap对象
         requestMap.put("delId",id);
         manager.sendComplexForm(VG.DELETE_CHECKINFO_BYID_PATH, requestMap, new OkManager.returnJson() {
             @Override

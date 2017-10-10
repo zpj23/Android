@@ -33,25 +33,27 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestMap=new HashMap();
+
         if(VG.isExit){
             delLoginFile();
             VG.USERINFO=null;
             VG.isExit=false;
         }
-        if(VG.USERINFO!=null) {
-            requestMap.put("loginId", VG.USERINFO.getId());
-            requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
-        }else{
-            String str=readInFile();
-            if(!str.equalsIgnoreCase("")) {
-                Type listType = new TypeToken<UserInfo>() {}.getType();
-                UserInfo userInfo=gson.fromJson(str, listType);
-                VG.USERINFO = gson.fromJson(str, listType);
-                requestMap.put("loginId", VG.USERINFO.getId());
-                requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
-            }
-        }
+        getRequestMap();
+//        requestMap=new HashMap();
+//        if(VG.USERINFO!=null) {
+//            requestMap.put("loginId", VG.USERINFO.getId());
+//            requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
+//        }else{
+//            String str=readInFile();
+//            if(!str.equalsIgnoreCase("")) {
+//                Type listType = new TypeToken<UserInfo>() {}.getType();
+//                UserInfo userInfo=gson.fromJson(str, listType);
+//                VG.USERINFO = gson.fromJson(str, listType);
+//                requestMap.put("loginId", VG.USERINFO.getId());
+//                requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
+//            }
+//        }
     }
 
     public void openWaiting(){
@@ -164,4 +166,24 @@ public class BaseActivity extends AppCompatActivity {
         f.delete();
     }
 
+
+    /**
+     * 初始化查询对象
+     */
+    public void getRequestMap(){
+        requestMap=new HashMap();
+        if(VG.USERINFO!=null) {
+            requestMap.put("loginId", VG.USERINFO.getId());
+            requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
+        }else{
+            String str=readInFile();
+            if(!str.equalsIgnoreCase("")) {
+                Type listType = new TypeToken<UserInfo>() {}.getType();
+                UserInfo userInfo=gson.fromJson(str, listType);
+                VG.USERINFO = gson.fromJson(str, listType);
+                requestMap.put("loginId", VG.USERINFO.getId());
+                requestMap.put("isAdmin", VG.USERINFO.getIsAdmin());
+            }
+        }
+    }
 }

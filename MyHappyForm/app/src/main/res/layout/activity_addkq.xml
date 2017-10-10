@@ -107,7 +107,7 @@
                 <EditText
                     android:id="@+id/staffname"
                     android:layout_width="50dp"
-                    android:text="多人用，分割"
+                    android:hint="多人用，分割"
                     android:layout_height="wrap_content" />
 
             </TableRow>
