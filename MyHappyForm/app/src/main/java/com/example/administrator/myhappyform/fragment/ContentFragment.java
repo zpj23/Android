@@ -28,8 +28,8 @@ public class ContentFragment extends Fragment {
     private List<Map<String, Object>> data_list;
     private SimpleAdapter sim_adapter;
     // 图片封装为一个数组
-    private int[] icon = { R.drawable.sys_kqgl};
-    private String[] iconName = { "考核管理"};
+    private int[] icon = { R.drawable.sys_kqgl,R.drawable.tb2,R.drawable.tb3,R.drawable.tb4,R.drawable.tb5,R.drawable.tb6,R.drawable.tb7,R.drawable.tb8};
+    private String[] iconName = { "考核管理","示例","示例","示例","示例","示例","示例","示例","示例"};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
